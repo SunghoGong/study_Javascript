@@ -1,6 +1,6 @@
 # 모던 자바스크립트로 배우는 리액트 입문(한빛미디어, 2022)
 
-## Modern Javascript
+## Day 1 (Modern Javascript)
 
 ### 객체 속성값 변경 및 추가
 
