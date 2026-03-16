@@ -491,7 +491,7 @@ if (flag1 || flag2) {
 const num2 = 100;
 const fee2 = num2 && "무언가가 설정되었습니다";
 
-console.log(fee2);
+console.log(fee2); // 무언가가 설정되었습니다
 ```
 
 → 논리 연산자 &&은 **왼쪽을 true로 판정하면 오른쪽을 반환**(||과 반대)
