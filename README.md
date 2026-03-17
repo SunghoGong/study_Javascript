@@ -503,3 +503,260 @@ console.log(fee2); // 무언가가 설정되었습니다
 → 0이나 “”(빈 문자)는 falsy, [ ](빈 배열)이나 { }(빈 객체)는 truthy임
 
 → null과 undefined로 판정되는 것은 nullish라고 부름
+
+## Day 2 (자바스크립트에서 DOM 조작)
+### 모형 | index.html
+
+```jsx
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>JavaScript에서의 DOM 조작</title>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href="src/styles.css" />
+    </head>
+
+    <body>
+        <h1 id="title">Hello World!!</h1>
+        <div class="container">
+            <p>영역 1입니다</p>
+        </div>
+        <div class="container">
+            <p>영역 2입니다</p>
+        </div>
+        <script src="src/index.js"></script>
+    </body>
+</html>
+```
+
+### 템플릿 | styles.css
+
+```jsx
+.container {
+    border: solid 1px #ccc;
+    padding: 16px;
+    margin: 8px;
+}
+```
+
+### 요소 얻기 | index.js
+
+```jsx
+ // getElementById 사용
+const title1 = document.getElementById("title");
+console.log(title1);
+// <h1 id="title">Hello World!!</h1>
+```
+
+→ 
+
+```jsx
+//querySelector 사용
+const title2 = document.querySelector("#title");
+console.log(title2);
+// <h1 id="title">Hello World!!</h1>
+```
+
+→
+
+### 클래스명으로 엘리먼트 얻기
+
+```jsx
+// getElementsByClassName 사용
+const containers = document.getElementsByClassName("container");
+console.log(containers);
+```
+
+→
+
+### querySelector를 이용한 엘리먼트 얻기
+
+```jsx
+// querySelector 사용
+const container = document.querySelector(".container");
+console.log(container);
+```
+
+→ 클래스명일 때는 .을 붙임
+
+### querySelectorAll을 이용한 엘리먼트 얻기
+
+```jsx
+// querySelectorAll 사용
+const containers = document.querySelectorAll(".container");
+console.log(containers);
+```
+
+→ querySelectorAll을 사용하면 일치하는 엘리먼트를 모두 얻음
+
+### DOM 작성
+
+```jsx
+// div 생성
+const divEl = document.createElement("div");
+// p 생성
+const pEl = document.createElement("p");
+// h2 생성
+const h2El = document.createElement("h2");
+
+// div 태그 아래 태그 추가(뒤에)
+divEl.appendChild(pEl);
+divEl.appendChild(h2El);
+
+console.log(divEl);
+```
+
+```jsx
+// div 생성
+const divEl = document.createElement("div");
+// p 생성
+const pEl = document.createElement("p");
+// h2 생성
+const h2El = document.createElement("h2");
+
+// div 태그 태그 추가(맨 앞)
+divEl.prepend(pEl);
+divEl.prepend(h2El);
+
+console.log(divEl);
+```
+
+### 버튼 설정
+
+```jsx
+// button 태그 생성
+const buttonEl = document.createElement("button");
+
+// 버튼 라벨 설정
+buttonEl.textContent = "버튼";
+
+// 영역 1의 div 태그 얻기
+const div1El = document.querySelector(".container");
+
+//div 태그 아래에 button 태그를 추가
+div1El.appendChild(buttonEl);
+```
+
+### h1 태그 삭제
+
+```jsx
+const h1El = document.getElementById("title");
+
+// body 태그 얻기
+const bodyEl = document.querySelector("body");
+
+// body 태그 아래부터 삭제
+bodyEl.removeChild(h1El);
+```
+
+### body 아래 모두 삭제
+
+```jsx
+// body 태그 얻기
+const bodyEl = document.querySelector("body");
+
+// body 태그 아래부터 삭제
+// 자녀 요소를 모두 삭제할 때는 textContent에 null을 지정
+bodyEl.textContent = null;
+```
+
+### 간단 메모 애플리케이션
+
+### index.html
+
+```html
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>간단 메모 애플리케이션</title>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href="src/styles.css" />
+    </head>
+
+    <body>
+        <h1 id="title">간단 메모 애플리케이션</h1>
+        <input id="add-text" />
+        <button id="add-button">추가</button>
+        <div class="container">
+            <p>메모 목록</p>
+            <ul id="memo-list"></ul>
+        </div>
+        
+        <script src="src/index.js"></script>
+    </body>
+</html>
+```
+
+### styles.css
+
+```css
+.container {
+    border: solid 1px #ccc;
+    padding: 16px;
+    margin: 8px;
+}
+
+li > div {
+    display: flex;
+    align-items: center;
+}
+
+button {
+    margin-left: 16px;
+}
+```
+
+### index.js
+
+```jsx
+// 추가 버튼 클릭 시 실행하는 함수
+const onClickAdd = () => {
+    // 텍스트 박스의 엘리먼트를 얻는다.
+    const textEl = document.getElementById("add-text");
+
+    // 텍스트 박스의 값을 얻는다.
+    const text = textEl.value;
+
+    // 텍스트 박스를 초기화한다(공백)
+    text.value = "";
+
+    // li 태그 생성
+    const li = document.createElement("li");
+
+    // div 태그 생성
+    const div = document.createElement("div");
+
+    // p 태그 생성(텍스트 박스의 문자 설정)
+    const p = document.createElement("p");
+    p.textContent = text;
+
+    // button 태그 생성(라벨: [삭제])
+    const button = document.createElement("button");
+    button.textContent = "삭제";
+    
+    // 버튼 클릭 시 행을 삭제하는 처리
+    button.addEventListener("click", () => {
+        // 삭제 대상 행(li)을 얻는다.
+        // closest는 부모 요소와 일치하는 문자열을 찾는 메서드
+        const deleteTarget = button.closest("li");
+
+        // ul 태그 아래에서 앞서 특정한 행을 삭제
+        document.getElementById("memo-list").removeChild(deleteTarget);
+    });
+
+    // div 태그 아래에 p 태그와 button 태그 설정
+    div.appendChild(p);
+    div.appendChild(button);
+
+    // li 태그 아래에 div 태그 설정
+    li.appendChild(div);
+
+    // 메모 목록 리스트에 li 태그 설정
+    document.getElementById("memo-list").appendChild(li);
+};
+
+// [추가] 버튼 클릭 시 onClickAdd 함수를 실행하도록 등록
+document
+    .getElementById("add-button")
+    .addEventListener("click", () => onClickAdd());
+```
